@@ -84,7 +84,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Homepage = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<HTMLDivElement[]>([]);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useGSAP(() => {
@@ -123,7 +123,7 @@ const Homepage = () => {
       }
     });
 
-    ScrollTrigger.create({
+    const trigger = ScrollTrigger.create({
       trigger: containerRef.current,
       start: "top top",
       end: "bottom top",
@@ -166,7 +166,14 @@ const Homepage = () => {
           duration: 0.5,
         }, 0.1),
     });
-  }, { scope: containerRef });
+
+    return () => {
+    trigger.kill();
+    ScrollTrigger.getAll().forEach(t => t.kill());
+    gsap.globalTimeline.clear();
+  };
+
+  }, { scope: containerRef, dependencies:[] });
 
   return (
     <div className="h-[200vh] w-full bg-white font-family-montserrat scroll-smooth">
@@ -188,7 +195,7 @@ const Homepage = () => {
             return (
               <Card
                 key={index}
-                ref={el => { cardsRef.current[index] = el!; }}
+                ref={el => { cardsRef.current[index] = el; }}
                 title={cardContents[index]?.title}
                 colorClass={cardContents[index]?.color}
                 initialImage={cardContents[index]?.initialImage}

@@ -1,8 +1,8 @@
 import React, {
-  useEffect,
   useRef,
   useState,
   ForwardedRef,
+  useLayoutEffect,
 } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -37,6 +37,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
 
     useGSAP(
       () => {
+        let tl: gsap.core.Timeline | undefined;
         if (scrollProgress !== undefined && scrollProgress === 0) {
           const tl = gsap.timeline();
 
@@ -85,11 +86,14 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
             "-=0.5"
           );
         }
+        return () => {
+    tl?.kill();
+  };
       },
       { scope: centerCardRef }
     );
 
-    useEffect(() => {
+    useLayoutEffect(() => {
       if (scrollProgress !== undefined) {
         if (scrollProgress > 0) {
           gsap.to("#dropbox-logo path", {
