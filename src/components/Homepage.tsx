@@ -115,7 +115,7 @@ const Homepage = () => {
             return (
               <Card
                 key={index}
-                ref={(el) => (cardsRef.current[index] = el!)}
+                ref={el => { cardsRef.current[index] = el!; }}
                 title={cardContents[index]?.title}
                 colorClass={cardContents[index]?.color}
                 initialImage={cardContents[index]?.initialImage}
