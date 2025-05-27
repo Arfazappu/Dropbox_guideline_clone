@@ -5,7 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Card from "./Card";
-import {colors, cardContents} from "../cardData"
+import {cardContents, colors} from "../cardData"
 
 gsap.registerPlugin(ScrollTrigger);
 

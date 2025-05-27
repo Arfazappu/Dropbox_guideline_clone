@@ -11,15 +11,8 @@ export const colors = [
   "#8a2056",
 ];
 
-export interface CardContent {
-  title: string;
-  color?: string;
-  initialImage?: string;
-  hoverImage?: string;
-  imagePosition?: string;
-}
 
-export const cardContents: CardContent[] = [
+export const cardContents = [
   {
     title: "Framework",
     color: "text-[#b6c9e0]",
