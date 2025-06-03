@@ -1,9 +1,4 @@
-import React, {
-  useRef,
-  useState,
-  ForwardedRef,
-  useLayoutEffect,
-} from "react";
+import React, { useRef, useState, ForwardedRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -16,6 +11,7 @@ interface CardProps {
   bgColor: string;
   extraClasses?: string;
   scrollProgress?: number;
+  hoverEnabled?: boolean;
 }
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
@@ -29,6 +25,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       bgColor,
       extraClasses = "",
       scrollProgress,
+      hoverEnabled
     }: CardProps,
     ref: ForwardedRef<HTMLDivElement>
   ) => {
@@ -87,8 +84,8 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
           );
         }
         return () => {
-    tl?.kill();
-  };
+          tl?.kill();
+        };
       },
       { scope: centerCardRef }
     );
@@ -125,10 +122,12 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       >
         <div
           className={`flex relative flex-col h-full w-full p-4 transition-[hover 0.5s ease-linear] ${colorClass} ${
-            title !== "" ? "hover:bg-[#1a1918] cursor-pointer" : ""
-          } hover:text-white transition-colors duration-500 ease-linear`}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
+            hoverEnabled && title !== ""
+              ? "hover:bg-[#1a1918] cursor-pointer hover:text-white"
+              : ""
+          } transition-colors duration-500 ease-linear`}
+          onMouseEnter={() => hoverEnabled && setIsHovered(true)}
+          onMouseLeave={() => hoverEnabled && setIsHovered(false)}
         >
           {scrollProgress !== undefined ? (
             <div ref={centerCardRef}>
