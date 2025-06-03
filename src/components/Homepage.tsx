@@ -187,6 +187,8 @@ const Homepage = () => {
           ),
       });
 
+      ScrollTrigger.refresh();
+
       return () => {
         trigger.kill();
         ScrollTrigger.getAll().forEach((t) => t.kill());
